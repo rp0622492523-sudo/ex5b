@@ -37,16 +37,21 @@
 			   var t = Number($('#temp').val());//celsius
 			   var u = $('#unit').val();
 			   
+			     if(!validate(t)) return;
+
+			function validate(t){	
 			   if(isNaN(t)){
 					msg = "Please verify whether the temperature value is correct!!!";
 					alert(msg);
-					return;
+					return false;
 			   }
 			   if(!(t >= -100 && t <= 100)){
 					msg = "Tempurature entered (in Celsius) must be between 0 and 100 C'";
 					alert(msg);
-					return;
+					return false;
 			   }
+			   return true;
+			}
 			   
 			   var t1;
 			   var u1;
