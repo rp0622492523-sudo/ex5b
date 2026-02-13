@@ -31,45 +31,54 @@
 	<div id="result" style="margin-top:10px;margin-left:10px; font-size: 20px; color:red;">
 	</div>
 	
-	<script>
-	    $(document).ready(function(){
-			$("button").click(function(){
-			   var t = Number($('#temp').val());//celsius
-			   var u = $('#unit').val();
-			   
-			     if(!validate(t)) return;
+<script>
+    $(document).ready(function(){
+        $("button").click(function(){
+            var t = Number($('#temp').val()); // ดึงค่าจากช่องกรอก
+            var u = $('#unit').val(); // ดึงค่าจาก select
+            
+            // เรียกใช้ function validate
+            if(!validate(t)) return;
 
-			function validate(t){	
-			   if(isNaN(t)){
-					msg = "Please verify whether the temperature value is correct!!!";
-					alert(msg);
-					return false;
-			   }
-			   if(!(t >= -100 && t <= 100)){
-					msg = "Tempurature entered (in Celsius) must be between 0 and 100 C'";
-					alert(msg);
-					return false;
-			   }
-			   return true;
-			}
-			   
-			   var t1;
-			   var u1;
-			   
-			   if(u == "F"){
-					t1 = t * (9/5) + 32;
-					u1 = "Fahrenheit";
-			   }else if(u == "K"){
-					t1 =  t + 273.15;
-					u1 = "Kelvin";
-			   }else if(u == "R"){
-					t1 = t * (4/5);
-                    u1 = "Réaumur";
-			   }
-			   
-			   alert("Temperature is "+t1+" in "+u1);
-			});
-		});
-	</script>
+            // ข้อ 9: เรียกใช้ function conversion ที่แยกออกมา
+            var r = conversion(t, u);
+            var t1 = r[0];
+            var u1 = r[1];
+            
+            
+            alert("Temperature is " + t1.toFixed(2) + " " + u1);
+        });
+
+        // แยกออกมาเป็น function ต่างหากตามโจทย์ข้อ 8
+        function validate(t){   
+            if(isNaN(t) || $('#temp').val() === ""){
+                alert("Please verify whether the temperature value is correct!!!");
+                return false;
+            }
+            if(!(t >= -100 && t <= 100)){
+                alert("Temperature entered (in Celsius) must be between -100 and 100 C'");
+                return false;
+            }
+            return true;
+        }
+            
+        // ข้อ 9: function สำหรับการคำนวณที่แยกออกมา
+        function conversion(t, u){
+            var t1;
+            var u1;
+            if(u == "F"){
+                t1 = t * (9/5) + 32;
+                u1 = "Fahrenheit";
+            } else if(u == "K"){
+                t1 = t + 273.15;
+                u1 = "Kelvin";
+            } else if(u == "R"){
+                t1 = t * (4/5);
+                u1 = "Réaumur";
+            }
+            return [t1, u1]; 
+        }
+    }); 
+</script>
 </body>
 </html>
